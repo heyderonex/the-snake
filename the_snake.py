@@ -79,7 +79,7 @@ class Snake(GameObject):
     """Отвечает за движение и отрисовку змейки."""
 
     def __init__(self):
-        """"Инициализация переменных."""
+        """Инициализация переменных."""
         super().__init__()
         self.length = 1
         self.positions = [START_POSITION]
@@ -93,18 +93,23 @@ class Snake(GameObject):
         return self.positions[0]
 
     def move(self):
-        """Перемещает змейку в заданном направлении и проверяет сьеденно ли яблоко."""
+        """
+        Перемещает змейку в заданном направлении
+        и проверяет сьеденно ли яблоко.
+        """
         head_position_x, head_position_y = self.get_head_position()
-        new_head_position_x = (head_position_x + self.direction[0] * GRID_SIZE) % SCREEN_WIDTH
-        new_head_position_y = (head_position_y + self.direction[1] * GRID_SIZE) % SCREEN_HEIGHT
+        new_head_position_x = head_position_x + self.direction[0] * GRID_SIZE
+        new_head_position_x = new_head_position_x % SCREEN_WIDTH
+        new_head_position_y = head_position_y + self.direction[1] * GRID_SIZE
+        new_head_position_y = new_head_position_y % SCREEN_HEIGHT
         new_head_position = (new_head_position_x, new_head_position_y)
-        self.positions.insert(0, new_head_position)        
-        if len(self.positions) > self.length: # Эту проверку доделала нейросеть, у меня не было else
+        self.positions.insert(0, new_head_position)
+        if len(self.positions) > self.length:
             self.last = self.positions[-1]
             del self.positions[-1]
         else:
             self.last = None
-            
+
     def update_direction(self):
         """Обновляет направление движения змейки."""
         if self.next_direction:
@@ -169,7 +174,7 @@ def main():
             snake.reset()
         apple.draw()
         snake.draw()
-        pygame.display.update()    
+        pygame.display.update()
 
 
 if __name__ == '__main__':
