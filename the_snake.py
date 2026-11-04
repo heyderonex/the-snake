@@ -42,9 +42,7 @@ clock = pygame.time.Clock()
 
 # Тут опишите все классы игры.
 class GameObject:
-    """
-    Базовый класс игровых объектов
-    """
+    """Базовый класс игровых объектов"""
     def __init__(self):
         self.position = (320, 240)
         self.body_color = (0, 0, 0)
@@ -53,9 +51,7 @@ class GameObject:
         pass
 
 class Apple(GameObject):
-    """
-    Отвечает за появление и отрисовку яблока.
-    """
+    """Отвечает за появление и отрисовку яблока."""
     def __init__(self):
         self.position = START_POSITION
         self.body_color = (255, 0, 0)
@@ -72,9 +68,7 @@ class Apple(GameObject):
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 class Snake(GameObject):
-    """
-    Отвечает за движение и отрисовку змейки.
-    """
+    """Отвечает за движение и отрисовку змейки."""
     def __init__(self):
         super().__init__()
         self.length = 1
