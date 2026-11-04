@@ -53,6 +53,7 @@ class GameObject:
         """Заглушка отрисовки."""
         pass
 
+
 class Apple(GameObject):
     """Отвечает за появление и отрисовку яблока."""
 
@@ -72,6 +73,7 @@ class Apple(GameObject):
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
 
 class Snake(GameObject):
     """Отвечает за движение и отрисовку змейки."""
@@ -97,7 +99,7 @@ class Snake(GameObject):
         new_head_position_y = (head_position_y + self.direction[1] * GRID_SIZE) % SCREEN_HEIGHT
         new_head_position = (new_head_position_x, new_head_position_y)
         self.positions.insert(0, new_head_position)        
-        if len(self.positions) > self.length: #эту проверку доделала нейросеть, у меня не было else
+        if len(self.positions) > self.length: # Эту проверку доделала нейросеть, у меня не было else
             self.last = self.positions[-1]
             del self.positions[-1]
         else:
@@ -116,7 +118,6 @@ class Snake(GameObject):
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         screen.fill(BOARD_BACKGROUND_COLOR)
 
-
     def draw(self):
         """Отрисовывает змейку."""
         for position in self.positions[:-1]:
@@ -129,6 +130,7 @@ class Snake(GameObject):
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
+
 
 def handle_keys(game_object):
     """Изменяет направление движения."""
@@ -145,6 +147,7 @@ def handle_keys(game_object):
                 game_object.next_direction = LEFT
             elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
                 game_object.next_direction = RIGHT
+
 
 def main():
     """Основной игровой процесс."""
@@ -167,6 +170,7 @@ def main():
         apple.draw()
         snake.draw()
         pygame.display.update()    
+
 
 if __name__ == '__main__':
     main()
