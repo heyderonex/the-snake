@@ -45,7 +45,7 @@ class GameObject:
     def draw(self):
         """Заглушка отрисовки."""
         class_name = self.__class__.__name__
-        message = f"Метод не переопределен в дочернем классе {class_name}"
+        message = f'Метод не переопределен в дочернем классе {class_name}'
         raise NotImplementedError(message)
 
     def draw_square(self, position=None, body_color=None, border=True):
