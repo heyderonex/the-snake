@@ -50,13 +50,10 @@ class GameObject:
 
     def draw_square(self, position=None, body_color=None, border=True):
         """Отрисовывает квадрат."""
-        if position is not None:
-            self.position = position
-        rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-        if body_color is not None:
-            pg.draw.rect(screen, body_color, rect)
-        else:
-            pg.draw.rect(screen, self.body_color, rect)
+        position = position or self.position
+        rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
+        body_color = body_color or self.body_color
+        pg.draw.rect(screen, body_color, rect)
         if border:
             pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
@@ -73,10 +70,9 @@ class Apple(GameObject):
         while True:
             position_x = randint(0, GRID_WIDTH - 1) * GRID_SIZE
             position_y = randint(0, GRID_HEIGHT - 1) * GRID_SIZE
-            new_coordinates = (position_x, position_y)
-            if new_coordinates not in using_squares:
+            self.position = (position_x, position_y)
+            if self.position not in using_squares:
                 break
-        self.position = (position_x, position_y)
 
     def draw(self):
         """Отрисовывает яблоко."""
@@ -86,9 +82,9 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Отвечает за движение и отрисовку змейки."""
 
-    def __init__(self):
+    def __init__(self, body_color=SNAKE_COLOR):
         """Инициализация переменных."""
-        super().__init__(body_color=SNAKE_COLOR)
+        super().__init__(body_color=body_color)
         self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
@@ -124,11 +120,11 @@ class Snake(GameObject):
         self.length = 1
         self.positions = [self.position]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
-        screen.fill(BOARD_BACKGROUND_COLOR)
+        self.last = None
 
     def draw(self):
         """Отрисовывает змейку."""
-        self.draw_square(self.get_head_position(), SNAKE_COLOR)
+        self.draw_square(self.get_head_position(), self.body_color)
         if self.last:
             self.draw_square(self.last, BOARD_BACKGROUND_COLOR, False)
 
@@ -166,6 +162,8 @@ def main():
             apple.randomize_position(snake.positions)
         elif head_position in snake.positions[4:]:
             snake.reset()
+            screen.fill(BOARD_BACKGROUND_COLOR)
+            apple.randomize_position(snake.positions)
         apple.draw()
         snake.draw()
         pg.display.update()
